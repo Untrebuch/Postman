@@ -1,0 +1,673 @@
+{
+	"info": {
+		"_postman_id": "5dafaf7f-e029-4ae0-b114-d76114d07add",
+		"name": "GitHubWorkshop",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get",
+			"item": [
+				{
+					"name": "GetAllIssues",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"HTTP status code: 200 OK\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response holds an array of issues\", function() {\r",
+									"  pm.expect(pm.response.headers.get('Content-Type'))\r",
+									"    .equals('application/json; charset=utf-8');\r",
+									"  const json = pm.response.json();\r",
+									"  pm.expect(Array.isArray(json)).equals(true);\r",
+									"  for (let item of json) {\r",
+									"    pm.expect(typeof(item)).equals(\"object\");\r",
+									"    pm.expect(Number.isInteger(item.id)).equals(true);\r",
+									"    pm.expect(typeof(item.title)).equals(\"string\");\r",
+									"  }\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.github.com/repos/testnakov/test-nakov-repo/issues",
+							"protocol": "https",
+							"host": [
+								"api",
+								"github",
+								"com"
+							],
+							"path": [
+								"repos",
+								"testnakov",
+								"test-nakov-repo",
+								"issues"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetIssueeByNumber",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"HTTP status code: 200 OK\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response holds an 'issue' object\", function(){\r",
+									"    pm.expect(pm.response.headers.get('Content-type'))\r",
+									"    .equals('application/json; charset=utf-8');\r",
+									"    const issue = pm.response.json();\r",
+									"    pm.expect(typeof(issue)).equals(\"object\");\r",
+									"    pm.expect(Number.isInteger(issue.id)).equals(true);\r",
+									"    pm.expect(typeof(issue.title)).equals(\"string\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.github.com/repos/testnakov/test-nakov-repo/issues/1",
+							"protocol": "https",
+							"host": [
+								"api",
+								"github",
+								"com"
+							],
+							"path": [
+								"repos",
+								"testnakov",
+								"test-nakov-repo",
+								"issues",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetIssueByInvalidNumber",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"HTTP status code: 404 Not Found\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.github.com/repos/testnakov/test-nakov-repo/issues/0",
+							"protocol": "https",
+							"host": [
+								"api",
+								"github",
+								"com"
+							],
+							"path": [
+								"repos",
+								"testnakov",
+								"test-nakov-repo",
+								"issues",
+								"0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllLabels",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "GET https://api.github.com/repos/testnakov/test-nakov-repo/issues/3165/labels",
+							"protocol": "GET https",
+							"host": [
+								"api",
+								"github",
+								"com"
+							],
+							"path": [
+								"repos",
+								"testnakov",
+								"test-nakov-repo",
+								"issues",
+								"3165",
+								"labels"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllComments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "GET https://api.github.com/repos/testnakov/test-nakov-repo/issues/3165/comments",
+							"protocol": "GET https",
+							"host": [
+								"api",
+								"github",
+								"com"
+							],
+							"path": [
+								"repos",
+								"testnakov",
+								"test-nakov-repo",
+								"issues",
+								"3165",
+								"comments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetACommentByID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.github.com/repos/testnakov/test-nakov-repo/issues/comments/762538948",
+							"protocol": "https",
+							"host": [
+								"api",
+								"github",
+								"com"
+							],
+							"path": [
+								"repos",
+								"testnakov",
+								"test-nakov-repo",
+								"issues",
+								"comments",
+								"762538948"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Post",
+			"item": [
+				{
+					"name": "CreateNewIssue",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"HTTP status code: 201 Created\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"pm.test(\"Response holds the posted 'issue' object\", function(){\r",
+									"    pm.expect(pm.response.headers.get('Content-type'))\r",
+									"    .equals('application/json; charset=utf-8');\r",
+									"    const RequestIssue = JSON.parse(pm.request.body);\r",
+									"    const ResponseIssue = pm.response.json();\r",
+									"    pm.expect(typeof(ResponseIssue)).equals(\"object\");\r",
+									"    pm.expect(Number.isInteger(ResponseIssue.id)).equals(true);\r",
+									"    pm.expect(RequestIssue.title).equals(ResponseIssue.title);\r",
+									"    pm.expect(RequestIssue.body).equals(ResponseIssue.body);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{token}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{user}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Missing [Submit] button\",\r\n  \"body\": \"I'm having a problem with this.\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.github.com/repos/testnakov/test-nakov-repo/issues",
+							"protocol": "https",
+							"host": [
+								"api",
+								"github",
+								"com"
+							],
+							"path": [
+								"repos",
+								"testnakov",
+								"test-nakov-repo",
+								"issues"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateNewIssueWithoutAuthentication",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"HTTP status code: 404 Not found\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"New issue\",\r\n  \"body\": \"I'm having a problem with this.\",\r\n  \"labels\": [\"bug\",\"importance:high\",\"type:UI\"]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.github.com/repos/testnakov/test-nakov-repo/issues",
+							"protocol": "https",
+							"host": [
+								"api",
+								"github",
+								"com"
+							],
+							"path": [
+								"repos",
+								"testnakov",
+								"test-nakov-repo",
+								"issues"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateNewIssueWithoutTItle",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"HTTP status code: 422\", function () {\r",
+									"    pm.response.to.have.status(422);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{token}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{user}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"body\": \"I'm having a problem with this.\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.github.com/repos/testnakov/test-nakov-repo/issues",
+							"protocol": "https",
+							"host": [
+								"api",
+								"github",
+								"com"
+							],
+							"path": [
+								"repos",
+								"testnakov",
+								"test-nakov-repo",
+								"issues"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateAComment",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{token}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{user}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"body\": \"This is a comment\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.github.com/repos/testnakov/test-nakov-repo/issues/3165/comments",
+							"protocol": "https",
+							"host": [
+								"api",
+								"github",
+								"com"
+							],
+							"path": [
+								"repos",
+								"testnakov",
+								"test-nakov-repo",
+								"issues",
+								"3165",
+								"comments"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Edit",
+			"item": [
+				{
+					"name": "EditIssueByID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"HTTP status code: 200\" , function(){\r",
+									"    pm.response.to.have.status(200);\r",
+									"})\r",
+									"pm.test(\"Authentication\", function(){\r",
+									"    pm.expect(pm.response.headers.get('Content-type'))\r",
+									"    .equals('application/json; charset=utf-8');\r",
+									"    pm.response.to.be.json;\r",
+									"    const issue = pm.response.json();\r",
+									"    const RequestIssue = JSON.parse(pm.request.body);\r",
+									"    const ResponseIssue = pm.response.json();\r",
+									"    pm.expect(typeof(issue)).equals(\"object\");\r",
+									"    pm.expect(Number.isInteger(issue.id)).equals(true);\r",
+									"    pm.expect(Number.isInteger(issue.number)).equals(true);\r",
+									"    pm.expect(typeof(issue.title)).equals(\"string\");\r",
+									"    pm.expect(RequestIssue.title).equals(ResponseIssue.title);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{token}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{user}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Edited bug (new title)\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.github.com/repos/testnakov/test-nakov-repo/issues/3170",
+							"protocol": "https",
+							"host": [
+								"api",
+								"github",
+								"com"
+							],
+							"path": [
+								"repos",
+								"testnakov",
+								"test-nakov-repo",
+								"issues",
+								"3170"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CloseIssue",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{token}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{user}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"state\": \"closed\"\r\n}\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.github.com/repos/testnakov/test-nakov-repo/issues/3165",
+							"protocol": "https",
+							"host": [
+								"api",
+								"github",
+								"com"
+							],
+							"path": [
+								"repos",
+								"testnakov",
+								"test-nakov-repo",
+								"issues",
+								"3165"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EditComment",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{token}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{user}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"body\": \"Edited Comment\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.github.com/repos/testnakov/test-nakov-repo/issues/comments/1126936102",
+							"protocol": "https",
+							"host": [
+								"api",
+								"github",
+								"com"
+							],
+							"path": [
+								"repos",
+								"testnakov",
+								"test-nakov-repo",
+								"issues",
+								"comments",
+								"1126936102"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Delete",
+			"item": [
+				{
+					"name": "DeleteCommentByID",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{token}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{user}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://api.github.com/repos/testnakov/test-nakov-repo/issues/comments/1126938732",
+							"protocol": "https",
+							"host": [
+								"api",
+								"github",
+								"com"
+							],
+							"path": [
+								"repos",
+								"testnakov",
+								"test-nakov-repo",
+								"issues",
+								"comments",
+								"1126938732"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
